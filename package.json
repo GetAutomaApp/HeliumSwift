@@ -1,0 +1,26 @@
+{
+  "name": "heliumswift",
+  "version": "1.0.0",
+  "description": "Crispy abstractions package based on GetAutomaApp/SwiftWebDriver to do automate a web browser with less code.",
+  "keywords": [
+    "helium",
+    "helium",
+    "swift",
+    "browser-automation"
+  ],
+  "homepage": "https://github.com/GetAutomaApp/HeliumSwift#readme",
+  "bugs": {
+    "url": "https://github.com/GetAutomaApp/HeliumSwift/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GetAutomaApp/HeliumSwift.git"
+  },
+  "license": "ISC",
+  "author": "William Ferns",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "swift test"
+  }
+}
