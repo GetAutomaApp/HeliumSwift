@@ -1,8 +1,18 @@
+// Helium.swift
+// Copyright (c) 2025 GetAutomaApp
+// All source code and related assets are the property of GetAutomaApp.
+// All rights reserved.
+
 import Foundation
 import SwiftWebDriver
 
-public struct Helium {
-    static public func startChrome(payload: ChromeStarterPayload)
+/// Main object that simplifies the use of Selenium
+public enum Helium {
+    /// Create a new chrome browser, returning driver as a result
+    /// - Parameter payload: ChromeStarterPayload, a payload to easily configure driver options
+    /// - Throws: An error if there is a problem instantiating, starting or navigating to a URL
+    /// - Returns:
+    public static func startChrome(payload: ChromeStarterPayload)
         async throws -> WebDriver<ChromeDriver>
     {
         return try await ChromeStarter(payload: payload).startChrome()
@@ -10,8 +20,10 @@ public struct Helium {
 }
 
 internal struct ChromeStarter {
-    let payload: ChromeStarterPayload
+    /// Chrome starter payload
+    public let payload: ChromeStarterPayload
 
+    /// Strart Chrome driver instance
     public func startChrome() async throws -> WebDriver<ChromeDriver> {
         let driver = try WebDriver(
             driver: ChromeDriver(
@@ -19,23 +31,45 @@ internal struct ChromeStarter {
             )
         )
         try await driver.start()
-        try await driver.navigateTo(url: payload.url)
+
+        if let url = payload.url {
+            try await driver.navigateTo(url: url)
+        }
 
         return driver
     }
 }
 
+/// `ChromeStarter` payload
 public struct ChromeStarterPayload {
-    public let url: URL
+    /// Optional URL to navigate the driver to
+    public let url: URL?
+
+    /// ChromeOptions to initialize the browser instance with
     public let options: ChromeOptions
 
-    init(
-        urlString: String,
-        headless: Bool,
-        maximize: Bool,
-        options: ChromeOptions
+    /// Initialize `ChromeStarterPayload`
+    /// - Parameters:
+    ///   - urlString: Optional URL as `String`, when provided the driver will navigate to
+    ///   - headless: Optional boolean, when provided as true, the driver will run in the background without any UI
+    /// displayed
+    ///   - maximize: Optional `Boolean`, when provided as true, the driver window will be fully maximized on the
+    /// display
+    ///   - options: Optional `ChromeOptions`, when provided will be used to configure the Chrome instance
+    ///
+    /// - Throws: `HeliumError.invalidURL` if the `urlString` parameter cannot be converted to a `URL` if provided
+    public init(
+        urlString: String? = nil,
+        headless: Bool? = nil,
+        maximize: Bool? = nil,
+        options: ChromeOptions? = nil
     ) throws {
-        self.url = try URL.from(string: urlString)
+        if let urlString {
+            url = try URL.from(string: urlString)
+        } else {
+            url = nil
+        }
+
         var optionsCreator = ChromeOptionsCreator(
             headless: headless, maximize: maximize, options: options
         )
@@ -43,28 +77,30 @@ public struct ChromeStarterPayload {
     }
 
     private struct ChromeOptionsCreator {
-        private let headless: Bool
-        private let maximize: Bool
-        private let options: ChromeOptions
+        private let headless: Bool?
+        private let maximize: Bool?
+        private let options: ChromeOptions?
         private var chromeOptionArguments: [Args] = []
 
-        public init(headless: Bool, maximize: Bool, options: ChromeOptions) {
+        /// Initialize a new `ChromeOptionsCreator` object
+        public init(headless: Bool? = nil, maximize: Bool? = nil, options: ChromeOptions? = nil) {
             self.headless = headless
             self.maximize = maximize
             self.options = options
         }
 
+        /// Create `ChromeOptions` object
         public mutating func createChromeOptions()
             -> ChromeOptions
         {
-            if headless {
+            if headless != nil && headless == true {
                 addArgument(Args(.headless))
             }
-            if maximize {
+            if maximize != nil && maximize == true {
                 addArgument(Args(.startMaximized))
             }
 
-            if let additionalArguments = options.args {
+            if let options, let additionalArguments = options.args {
                 addArguments(additionalArguments)
             }
 
@@ -84,16 +120,5 @@ public struct ChromeStarterPayload {
         private mutating func removeAllDuplicateArguments() {
             chromeOptionArguments = Array(Set(chromeOptionArguments))
         }
-    }
-}
-
-extension URL {
-    public static func from(string urlString: String) throws -> URL {
-        guard
-            let url = URL(string: urlString)
-        else {
-            throw HeliumError.invalidURL(url: urlString)
-        }
-        return url
     }
 }
