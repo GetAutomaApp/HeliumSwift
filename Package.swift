@@ -15,7 +15,8 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "HeliumSwift",
-            targets: ["HeliumSwift"])
+            targets: ["HeliumSwift"]
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/GetAutomaApp/SwiftWebDriver.git", branch: "master")

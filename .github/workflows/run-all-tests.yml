@@ -6,26 +6,45 @@ on:
       - '**.swift'
 
 jobs:
-  all-tests:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: SwiftyLab/setup-swift@latest
+        with:
+           swift-version: "6.1"
+
+      - uses: useblacksmith/cache@v5
+        with:
+          path: .build
+          key: ${{ runner.os }}-${{ hashFiles('**/Package.resolved') }}
+
+      - name: Run Unit Tests
+        uses: GetAutomaApp/opensource-actions/swifttesting@main
+        with:
+          compose: "false"
+          swift_test_extra_args: "--filter '.*UnitTests.*'"
+
+  integration-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: swift-actions/setup-swift@v2
+      - uses: SwiftyLab/setup-swift@latest
         with:
-          swift-version: "6.1"
+           swift-version: "6.1"
 
-      - name: Restore Build Cache
-        id: cache-build
-        uses: actions/cache@v3
+      - uses: useblacksmith/cache@v5
         with:
-            key: tests-build-cache-${{ hashFiles('Package.resolved') }}-${{ github.ref_name }}
-            path: ./.build
+          path: .build
+          key: ${{ runner.os }}-integrationtests-${{ hashFiles('**/Package.resolved') }}
 
-      - name: Run All Tests
+      - name: Run Integration Tests
         uses: GetAutomaApp/opensource-actions/swifttesting@main
         with:
           compose: "false"
+          swift_test_extra_args: "--filter '.*IntegrationTests.*'"
 
     env:
       PATH: "/usr/local/bin:/usr/bin:/bin"
