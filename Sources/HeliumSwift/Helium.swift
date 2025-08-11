@@ -8,10 +8,11 @@ import SwiftWebDriver
 
 /// Main object that simplifies the use of Selenium
 public enum Helium {
-    /// Create a new chrome browser, returning driver as a result
-    /// - Parameter payload: ChromeStarterPayload, a payload to easily configure driver options
-    /// - Throws: An error if there is a problem instantiating, starting or navigating to a URL
-    /// - Returns:
+    /// Create a new chrome browser instance with minimal lines of code, specify some common option
+    /// - Parameter payload: `ChromeStarterPayload`, a payload to easily configure driver options
+    /// - Throws: An error if there is a problem instantiating/starting the driver, or when navigating to a URL if
+    /// provided in the options
+    /// - Returns: `WebDriver<ChromeDriver>`
     public static func startChrome(payload: ChromeStarterPayload)
         async throws -> WebDriver<ChromeDriver>
     {
