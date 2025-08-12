@@ -26,7 +26,7 @@ public extension URL {
         guard
             let scheme = url.scheme
         else {
-            throw HeliumError.invalidURL(url: urlString, reason: "No scheme")
+            throw HeliumError.invalidURL(url: urlString, reason: .noScheme)
         }
 
         if onlyHttpOrHttpsScheme == false {
@@ -35,7 +35,7 @@ public extension URL {
         if ["http", "https"].contains(scheme) == false {
             throw HeliumError.invalidURL(
                 url: urlString,
-                reason: "Invalid scheme '\(scheme)' (only http and https allowed)"
+                reason: .invalidScheme(scheme: scheme, reason: "only http and https allowed")
             )
         }
         return url

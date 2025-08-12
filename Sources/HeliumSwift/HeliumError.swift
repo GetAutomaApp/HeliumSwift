@@ -4,5 +4,10 @@
 // All rights reserved.
 
 internal enum HeliumError: Error, Equatable {
-    case invalidURL(url: String, reason: String? = nil)
+    case invalidURL(url: String, reason: InvalidURLReason? = nil)
+}
+
+internal enum InvalidURLReason: Equatable {
+    case noScheme
+    case invalidScheme(scheme: String, reason: String)
 }
