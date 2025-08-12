@@ -12,22 +12,21 @@ let package = Package(
         .watchOS(.v6),
     ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "HeliumSwift",
             targets: ["HeliumSwift"]
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/GetAutomaApp/SwiftWebDriver.git", branch: "master")
+        .package(url: "https://github.com/GetAutomaApp/SwiftWebDriver.git", branch: "master"),
+        .package(url: "https://github.com/apple/swift-log", from: "1.6.0")
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "HeliumSwift",
             dependencies: [
-                .product(name: "SwiftWebDriver", package: "SwiftWebDriver")
+                .product(name: "SwiftWebDriver", package: "SwiftWebDriver"),
+                .product(name: "Logging", package: "swift-log")
             ]
         ),
         .testTarget(
