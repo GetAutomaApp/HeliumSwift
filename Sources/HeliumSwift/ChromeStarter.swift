@@ -56,7 +56,7 @@ public struct ChromeStarterPayload {
         options: ChromeOptions? = nil
     ) throws {
         if let urlString {
-            url = try URL.from(string: urlString)
+            url = try URL.fromString(payload: .init(string: urlString))
         } else {
             url = nil
         }
