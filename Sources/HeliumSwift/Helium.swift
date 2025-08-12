@@ -18,4 +18,15 @@ public enum Helium {
     {
         return try await ChromeStarter(payload: payload).startChrome()
     }
+
+    /// Opens the specified URL in the passed in web driver window
+    /// - Parameters:
+    ///   - driver: `WebDriver<T>`, The driver you want the current window to navigate to the passed in URL
+    ///   - url: `String`, The URL you want to navigate to you wan
+    ///
+    /// - Throws: `Helium.invalidURL` when URL format is invalid or an error when driver navigation failed
+    public static func goTo<T>(driver: WebDriver<T>, url: String) async throws {
+        let url = try URL.from(string: url)
+        try await driver.navigateTo(url: url)
+    }
 }
