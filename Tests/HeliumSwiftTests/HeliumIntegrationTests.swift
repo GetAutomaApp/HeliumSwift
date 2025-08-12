@@ -10,7 +10,7 @@ import Testing
 @Suite("HeliumIntegrationTests")
 internal struct HeliumIntegrationTests {
     /// Test start chrome driver instance
-    @Test("Create Chrome ")
+    @Test("Create Chrome")
     public func startChrome() async throws {
         let driver = try await Helium.startChrome(
             payload: .init(
