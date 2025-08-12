@@ -52,6 +52,22 @@ internal class WriteMethodIntegrationTests: DriverIntegrationTest {
         #expect(elementValue == textToSendToActiveWindow)
     }
 
+    @Test("Write To SwiftWebDriver Element")
+    public func writeToSwiftWebDriverElement() async throws {
+        page = "0.html"
+        try await driver.navigateTo(urlString: testPageURL.absoluteString)
+
+        let elementId = "findElementByInnerText"
+        let element = try await driver.findElement(.css(.id(elementId)))
+
+        let textToSendToElement = "randomText"
+        try await Helium.write(text: textToSendToElement, element: element)
+
+        let elementValue = try await getElementValue(selectorString: "getElementById('\(elementId)')")
+
+        #expect(elementValue == textToSendToElement)
+    }
+
     private func getElementValue(selectorString: String) async throws -> String {
         guard
             let elementValue = try await driver.execute("return document.\(selectorString).value").value?
