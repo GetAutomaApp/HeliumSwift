@@ -8,18 +8,17 @@ import Testing
 @testable import HeliumSwift
 
 @Suite("HeliumIntegrationTests")
-internal struct HeliumIntegrationTests {
+internal class HeliumIntegrationTests: HeliumIntegrationTest {
     /// Test start chrome driver instance
-    @Test("Create Chrome ")
+    @Test("Create Chrome")
     public func startChrome() async throws {
-        let driver = try await Helium.startChrome(
-            payload: .init(
-                urlString: "https://google.com",
-                headless: true,
-                maximize: true,
-                options: .init(args: [Args(.disableGPU)])
-            )
-        )
+        let driver = try await Helium.startChrome(payload: .init(
+            logger: logger,
+            urlString: "https://google.com",
+            headless: true,
+            maximize: true,
+            options: .init(args: [Args(.disableGPU)])
+        ))
         try await driver.stop()
     }
 }
