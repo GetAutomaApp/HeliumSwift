@@ -26,7 +26,7 @@ public enum Helium {
     ///
     /// - Throws: `Helium.invalidURL` when URL format is invalid or an error when driver navigation failed
     public static func goTo<T>(driver: WebDriver<T>, urlString: String) async throws {
-        let url = try URL.from(string: urlString)
+        let url = try URL.from(string: urlString, asHttp: true)
         try await driver.navigateTo(url: url)
     }
 }

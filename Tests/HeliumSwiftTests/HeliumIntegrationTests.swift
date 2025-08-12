@@ -19,23 +19,11 @@ internal struct HeliumIntegrationTests {
     /// Test `goTo` method success - valid urls
     @Test(
         "Test `goTo` method success cases",
-        arguments: ["https://google.com", "https://youtube.com", "https://instagram.com"]
+        arguments: ["google.com", "http://youtube.com", "https://instagram.com"]
     )
     public func goToMethodValidURLs(url: String) async throws {
         let driver = try await Helium.startChrome()
         try await Helium.goTo(driver: driver, urlString: url)
-    }
-
-    /// Test `goTo` method failure cases - invalid urls - no schemes
-    @Test(
-        "Test `goTo` method failure cases - invalid urls - no schemes",
-        arguments: ["anotherInvalidURL", "invalidURL", "httpsinvalid-url"]
-    )
-    public func goToMethodInvalidURLs(url: String) async throws {
-        let driver = try await Helium.startChrome()
-        await #expect(throws: HeliumError.invalidURL(url: url, reason: .noScheme), "Invalid URL") {
-            try await Helium.goTo(driver: driver, urlString: url)
-        }
     }
 
     /// Test `goTo` method failure cases - invalid urls - invalid schemes
