@@ -79,4 +79,6 @@ internal class WriteMethodIntegrationTests: DriverIntegrationTest {
         }
         return elementValue
     }
+
+    deinit {}
 }
