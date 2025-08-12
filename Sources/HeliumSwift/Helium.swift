@@ -13,7 +13,7 @@ public enum Helium {
     /// - Throws: An error if there is a problem instantiating/starting the driver, or when navigating to a URL if
     /// provided in the options
     /// - Returns: `WebDriver<ChromeDriver>`
-    public static func startChrome(payload: ChromeStarterPayload)
+    public static func startChrome(payload: ChromeStarterPayload? = nil)
         async throws -> WebDriver<ChromeDriver>
     {
         return try await ChromeStarter(payload: payload).startChrome()
