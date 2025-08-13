@@ -4,6 +4,7 @@
 // All rights reserved.
 
 import Foundation
+import Logging
 import SwiftWebDriver
 
 internal struct ChromeStarter {
@@ -16,25 +17,59 @@ internal struct ChromeStarter {
         self.payload = payload
     }
 
-    /// Strart Chrome driver instance
+    /// Start Chrome driver instance
     public func startChrome() async throws -> WebDriver<ChromeDriver> {
-        let driver = try WebDriver(
+        let driver = try createDriver()
+        try await startDriver(driver)
+
+        if let url = payload?.url {
+            try await navigateDriverTo(url: url, driver: driver)
+        }
+
+        return driver
+    }
+
+    private func navigateDriverTo(url: URL, driver: WebDriver<ChromeDriver>) async throws {
+        try await driver.navigateTo(url: url)
+        payload?.logger?.info(
+            "Navigating Chrome driver to URL.",
+            metadata: [
+                "to": .string("\(String(describing: Self.self)).\(#function)"),
+                "url": .string(url.absoluteString),
+            ]
+        )
+    }
+
+    private func startDriver(_ driver: WebDriver<ChromeDriver>) async throws {
+        try await driver.start()
+        payload?.logger?.info(
+            "Started new Chrome driver success.",
+            metadata: [
+                "to": .string("\(String(describing: Self.self)).\(#function)"),
+            ]
+        )
+    }
+
+    private func createDriver() throws -> WebDriver<ChromeDriver> {
+        payload?.logger?.info(
+            "Starting new Chrome driver.",
+            metadata: [
+                "to": .string("\(String(describing: Self.self)).\(#function)"),
+            ]
+        )
+        return try WebDriver(
             driver: ChromeDriver(
                 browserObject: payload?.options ?? .init(args: [])
             )
         )
-        try await driver.start()
-
-        if let url = payload?.url {
-            try await driver.navigateTo(url: url)
-        }
-
-        return driver
     }
 }
 
 /// `ChromeStarter` payload
 public struct ChromeStarterPayload {
+    /// Logger to log messages to program output
+    public let logger: Logger?
+
     /// Optional URL to navigate the driver to
     public let url: URL?
 
@@ -52,11 +87,14 @@ public struct ChromeStarterPayload {
     ///
     /// - Throws: `HeliumError.invalidURL` if the `urlString` parameter cannot be converted to a `URL` if provided
     public init(
+        logger: Logger? = nil,
         urlString: String? = nil,
         headless: Bool? = nil,
         maximize: Bool? = nil,
         options: ChromeOptions? = nil
     ) throws {
+        self.logger = logger
+
         if let urlString {
             url = try URL.fromString(payload: .init(string: urlString))
         } else {

@@ -8,14 +8,14 @@ import Testing
 @testable import HeliumSwift
 
 @Suite("`goTo Method Integration Tests", .serialized)
-internal struct GoToMethodIntegrationTests {
+internal class GoToMethodIntegrationTests: HeliumIntegrationTest {
     /// Test `goTo` method success - valid urls
     @Test(
         "Test `goTo` method success cases",
         arguments: ["google.com", "http://youtube.com", "https://instagram.com"]
     )
     public func goToMethodValidURLs(url: String) async throws {
-        let driver = try await Helium.startChrome()
+        let driver = try await Helium.startChrome(payload: .init(logger: logger))
         try await Helium.goTo(driver: driver, urlString: url)
     }
 
@@ -42,4 +42,6 @@ internal struct GoToMethodIntegrationTests {
             try await Helium.goTo(driver: driver, urlString: url)
         }
     }
+
+    deinit {}
 }
