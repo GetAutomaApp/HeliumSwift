@@ -42,4 +42,6 @@ internal class GoToMethodIntegrationTests: HeliumIntegrationTest {
             try await Helium.goTo(driver: driver, urlString: url)
         }
     }
+
+    deinit {}
 }
