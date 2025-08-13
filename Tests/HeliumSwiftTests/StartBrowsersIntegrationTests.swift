@@ -7,7 +7,7 @@ import Testing
 
 @testable import HeliumSwift
 
-@Suite("Start Browsers Integration Tests")
+@Suite("Start Browsers Integration Tests", .serialized)
 internal struct StartBrowsersIntegrationTests {
     /// Test start chrome driver instance
     @Test("Test `startChrome` method")
