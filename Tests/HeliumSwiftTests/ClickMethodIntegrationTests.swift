@@ -16,10 +16,8 @@ internal class ClickMethodIntegrationTests: DriverIntegrationTest {
 
         let elementInnerText = "textInnerText"
 
-        try await driver.execute("""
-        let inputElement = document.getElementById("findElementByInnerText")
-        inputElement.innerText = "\(elementInnerText)"
-        """)
+        let element = try await driver.findElement(.css(.id("findElementByInnerText")))
+        try await driver.setProperty(element: element, propertyName: "innerText", newValue: elementInnerText)
 
         try await Helium.click(element: .init(
             driver: driver,
