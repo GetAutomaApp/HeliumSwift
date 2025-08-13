@@ -25,10 +25,15 @@ internal extension URL {
 internal struct URLFromStringCreator {
     private let payload: URLFromStringPayload
 
+    /// Initialize `URLFromStringCreator`, used to create a URL from a string
+    /// - Parameter payload:
     public init(payload: URLFromStringPayload) {
         self.payload = payload
     }
 
+    /// Create URL from string
+    /// - Throws: `HeliumError.invalidURL` when url or scheme is invalid
+    /// - Returns: The url string from payload as an initialized `URL`
     public func create() throws -> URL {
         let url = try getURL()
         try validateURLScheme(url: url)
@@ -87,11 +92,24 @@ internal struct URLFromStringCreator {
 }
 
 internal struct URLFromStringPayload {
+    /// URL as a string
     public let urlString: String
+
+    /// Should set scheme as http if no scheme is provided
     public let asHttp: Bool
+
+    /// When true, method that uses this data structure to create a URL will throw an error if scheme is not http or
+    /// https
     public let onlyHttpOrHttpsScheme: Bool
 
-    init(string urlString: String, asHttp: Bool = false, onlyHttpOrHttpsScheme: Bool = true) {
+    /// Initialize a new `URLFromStringPayload` data structure
+    /// - Parameters:
+    ///   - urlString: `String`, the url as a string
+    ///   - asHttp: `Bool = false`, when true, will add "http" as the urlString scheme if no scheme is provided.
+    ///   - onlyHttpOrHttpsScheme: `Bool = true`, will throw an error if true and `urlString` has a scheme other than
+    /// http or https
+    ///
+    public init(string urlString: String, asHttp: Bool = false, onlyHttpOrHttpsScheme: Bool = true) {
         self.urlString = urlString
         self.asHttp = asHttp
         self.onlyHttpOrHttpsScheme = onlyHttpOrHttpsScheme

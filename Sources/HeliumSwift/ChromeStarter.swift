@@ -11,6 +11,8 @@ internal struct ChromeStarter {
     /// Chrome starter payload
     public let payload: ChromeStarterPayload?
 
+    /// Initialize `ChromeStarter`
+    /// - Parameter payload: `ChromeStarterPayload?`, optional payload to pass into Chrome driver initializer
     public init(payload: ChromeStarterPayload? = nil) {
         self.payload = payload
     }
