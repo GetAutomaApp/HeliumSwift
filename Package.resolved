@@ -1,5 +1,5 @@
 {
-  "originHash" : "4ab8c6f7aa1a7d85d174b67c6b319aab23954ecd59755c34fbdcacaef3ca0fab",
+  "originHash" : "cb25ef715ecd9e066de8d975cffd653dab9eb2dc75c0dc6ded6bbb043a40317b",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -187,7 +187,7 @@
       "location" : "https://github.com/GetAutomaApp/SwiftWebDriver.git",
       "state" : {
         "branch" : "master",
-        "revision" : "2497b8d84ae283de4dabc1643d455098321b5322"
+        "revision" : "06a049bac5193a86ca615244a681be9d1f0cb784"
       }
     }
   ],
