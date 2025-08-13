@@ -22,11 +22,20 @@ public enum Helium {
     /// Send text to a `HeliumElement` - use this method if you want to use one of Helium's special element initializers
     /// - Parameters:
     ///   - text: Text to send to element
-    ///   - element: `HeliumElement`, find elements from the driver using one of Helium's special initializers
+    ///   - element: `HeliumElement`, find an element from the driver using one of Helium's special initializers
     ///
     /// - Throws: An error if there is a problem sending keys to the element
     public static func write<T: Driver>(text: String, element: HeliumElement<T>) async throws {
-        let element = element.element
+        try await ElementWriter(text: text, element: element.element).write()
+    }
+
+    /// Send text to a SwiftWebDriver `Element`
+    /// - Parameters:
+    ///   - text: `String`, text to send to element
+    ///   - element: `Element`, the element to send the keys to
+    ///
+    /// - Throws: An error if there is a problem sending keys to passed in element
+    public static func write(text: String, element: Element) async throws {
         try await ElementWriter(text: text, element: element).write()
     }
 
@@ -40,16 +49,6 @@ public enum Helium {
         try await ElementWriter(text: text, element: driver.getActiveElement()).write()
     }
 
-    /// Send text to a SwiftWebDriver `Element`
-    /// - Parameters:
-    ///   - text: `String`, text to send to element
-    ///   - element: `Element`, the element  to send the keys to
-    ///
-    /// - Throws: An error if there is a problem sending keys to passed in element
-    public static func write(text: String, element: Element) async throws {
-        try await ElementWriter(text: text, element: element).write()
-    }
-
     /// Opens the specified URL in the passed in web driver window
     /// - Parameters:
     ///   - driver: `WebDriver<T>`, The driver you want the current window to navigate to the passed in URL
@@ -59,5 +58,19 @@ public enum Helium {
     public static func goTo<T>(driver: WebDriver<T>, urlString: String) async throws {
         let url = try URL.fromString(payload: .init(string: urlString, asHttp: true))
         try await driver.navigateTo(url: url)
+    }
+
+    /// Click on a `HeliumElement` - use this method if you want to use one of Helium's special element initializers
+    /// - Parameter element: `HeliumElement`, find element from the driver using one of Helium's special initializers
+    /// - Throws: An error if there is a problem clicking on the element
+    public static func click<T: Driver>(element: HeliumElement<T>) async throws {
+        try await ElementClicker(element: element.element).click()
+    }
+
+    /// Click on a `Element`
+    /// - Parameter element: `Element`, the element to click on
+    /// - Throws: An error if there is a problem clicking on the element
+    public static func click(element: Element) async throws {
+        try await ElementClicker(element: element).click()
     }
 }
