@@ -17,7 +17,7 @@ internal struct ElementByTextFinder<T: Driver> {
     /// Find an element with matching inner text
     /// - Parameters:
     ///   - text: `String`, the text you are looking for in an element you want to find
-    ///   - matchType: `ElementByTextMatchType`, how to match the passed in `text` and element inner text (exact,
+    ///   - matchType: `ElementByTextFinderMatchType`, how to match the passed in `text` and element inner text (exact,
     /// partial, etc)
     ///
     /// - Throws: An error when there is a problem finding the element from the driver
@@ -29,7 +29,7 @@ internal struct ElementByTextFinder<T: Driver> {
     /// Find elements with matching inner text
     /// - Parameters:
     ///   - text: `String`, the text you are looking for in elements you want to find
-    ///   - matchType: `ElementByTextMatchType`, how to match the passed in `text` and elements inner text (exact,
+    ///   - matchType: `ElementByTextFinderMatchType`, how to match the passed in `text` and elements inner text (exact,
     /// partial, etc)
     ///
     /// - Throws: An error when there is a problem finding elements from the driver

@@ -15,11 +15,12 @@ public struct HeliumElement<T: Driver> {
     /// - Parameters:
     ///   - driver: `WebDriver<T>`, the driver to look for the element with matching inner text
     ///   - elementInnerText: `String`, the matching text you are looking for in an element
-    ///   - matchType: `ElementByTextMatchType`, what type of match to do when looking for an element with matching
+    ///   - matchType: `ElementByTextFinderMatchType`, what type of match to do when looking for an element with
+    /// matching
     /// inner text (exact, partial, etc)
     ///
     /// - Throws: An error if there was a problem finding the element from the driver
-    public init(driver: WebDriver<T>, elementInnerText: String, matchType: ElementByTextMatchType) async throws {
+    public init(driver: WebDriver<T>, elementInnerText: String, matchType: ElementByTextFinderMatchType) async throws {
         self.driver = driver
         element = try await ElementByTextFinder(driver: driver).findElementByText(
             elementInnerText,

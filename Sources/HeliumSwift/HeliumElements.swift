@@ -21,7 +21,7 @@ public extension HeliumElements {
     static func from<T: Driver>(
         driver: WebDriver<T>,
         elementsInnerText: String,
-        matchType: ElementByTextMatchType
+        matchType: ElementByTextFinderMatchType
     ) async throws -> Elements {
         return try await ElementByTextFinder(driver: driver).findElementsByText(
             elementsInnerText,
