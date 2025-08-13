@@ -9,6 +9,6 @@ internal enum HeliumError: Error, Equatable {
 }
 
 internal enum InvalidURLReason: Equatable {
-    case noScheme
     case invalidScheme(scheme: String, reason: String)
+    case noScheme
 }
