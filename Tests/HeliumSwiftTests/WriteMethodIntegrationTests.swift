@@ -17,18 +17,18 @@ internal class WriteMethodIntegrationTests: DriverIntegrationTest {
         let elementInnerText = "textInnerText"
         let elementId = "findElementByInnerText"
 
-        try await driver.execute("""
-        let inputElement = document.getElementById("\(elementId)")
-        inputElement.innerText = "\(elementInnerText)"
-        """)
+        let element = try await driver.findElement(.css(.id(elementId)))
+
+        try await driver.setProperty(element: element, propertyName: "innerText", newValue: elementInnerText)
 
         let textToSendToElement = "bob"
+
         try await Helium.write(
             text: textToSendToElement,
             element: .init(driver: driver, elementInnerText: elementInnerText, matchType: .exactMatch)
         )
 
-        let elementValue = try await getElementValue(selectorString: "getElementById('\(elementId)')")
+        let elementValue = try await getElementValue(driver.findElement(.css(.id(elementId))))
 
         #expect(elementValue == textToSendToElement)
     }
@@ -47,7 +47,7 @@ internal class WriteMethodIntegrationTests: DriverIntegrationTest {
         let textToSendToActiveWindow = "randomText"
         try await Helium.write(text: textToSendToActiveWindow, driver: driver)
 
-        let elementValue = try await getElementValue(selectorString: "getElementById('\(elementId)')")
+        let elementValue = try await getElementValue(element)
 
         #expect(elementValue == textToSendToActiveWindow)
     }
@@ -63,20 +63,20 @@ internal class WriteMethodIntegrationTests: DriverIntegrationTest {
         let textToSendToElement = "randomText"
         try await Helium.write(text: textToSendToElement, element: element)
 
-        let elementValue = try await getElementValue(selectorString: "getElementById('\(elementId)')")
+        let elementValue = try await getElementValue(element)
 
         #expect(elementValue == textToSendToElement)
     }
 
-    private func getElementValue(selectorString: String) async throws -> String {
+    private func getElementValue(_ element: Element) async throws -> String {
         guard
-            let elementValue = try await driver.execute("return document.\(selectorString).value").value?
-            .stringValue
+            let elementValue = try await driver.getProperty(element: element, propertyName: "value").value?.stringValue
         else {
             let errorMessage = "Element value could not be converted to a string"
             #expect(Bool(false), .init(rawValue: errorMessage))
             throw HeliumError.unknown(message: errorMessage)
         }
+
         return elementValue
     }
 
