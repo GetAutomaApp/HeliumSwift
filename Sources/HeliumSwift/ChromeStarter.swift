@@ -8,18 +8,22 @@ import SwiftWebDriver
 
 internal struct ChromeStarter {
     /// Chrome starter payload
-    public let payload: ChromeStarterPayload
+    public let payload: ChromeStarterPayload?
+
+    public init(payload: ChromeStarterPayload? = nil) {
+        self.payload = payload
+    }
 
     /// Strart Chrome driver instance
     public func startChrome() async throws -> WebDriver<ChromeDriver> {
         let driver = try WebDriver(
             driver: ChromeDriver(
-                browserObject: payload.options
+                browserObject: payload?.options ?? .init(args: [])
             )
         )
         try await driver.start()
 
-        if let url = payload.url {
+        if let url = payload?.url {
             try await driver.navigateTo(url: url)
         }
 
@@ -52,7 +56,7 @@ public struct ChromeStarterPayload {
         options: ChromeOptions? = nil
     ) throws {
         if let urlString {
-            url = try URL.from(string: urlString)
+            url = try URL.fromString(payload: .init(string: urlString))
         } else {
             url = nil
         }
