@@ -7,7 +7,7 @@ import Testing
 
 @testable import HeliumSwift
 
-@Suite("`goTo Method Integration Tests")
+@Suite("`goTo Method Integration Tests", .serialized)
 internal struct GoToMethodIntegrationTests {
     /// Test `goTo` method success - valid urls
     @Test(

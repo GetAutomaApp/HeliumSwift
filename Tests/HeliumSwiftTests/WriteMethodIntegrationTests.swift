@@ -7,7 +7,7 @@ import Testing
 
 @testable import HeliumSwift
 
-@Suite("Write Method Integration Tests")
+@Suite("Write Method Integration Tests", .serialized)
 internal class WriteMethodIntegrationTests: DriverIntegrationTest {
     @Test("Write To HeliumElement")
     public func writeToHeliumElement() async throws {
