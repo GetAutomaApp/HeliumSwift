@@ -43,8 +43,10 @@ jobs:
       - name: Run Integration Tests
         uses: GetAutomaApp/opensource-actions/swifttesting@main
         with:
-          compose: "false"
+          compose: "true"
           swift_test_extra_args: "--filter '.*IntegrationTests.*'"
+          required_healthy_services_docker_compose: '["selenium", "httpd"]'
+          compose_services_to_startup: '["selenium", "httpd"]'
 
     env:
       PATH: "/usr/local/bin:/usr/bin:/bin"
