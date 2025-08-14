@@ -73,4 +73,20 @@ public enum Helium {
     public static func click(element: Element) async throws {
         try await ElementClicker(element: element).click()
     }
+
+    /// Double click on a `HeliumElement` - use this method if you want to use one of Helium's special element
+    /// initializers
+    /// - Parameter element: `HeliumElement`, find element from the driver using one of Helium's special initializers
+    /// - Throws: An error if there is a problem clicking on the element
+    public static func doubleClick<T: Driver>(element: HeliumElement<T>) async throws {
+        try await element.element.doubleClick()
+    }
+
+    /// Double click on a `Element`
+    /// initializers
+    /// - Parameter element: `Element`, the element to click on
+    /// - Throws: An error if there is a problem clicking on the element
+    public static func doubleClick(element: Element) async throws {
+        try await element.doubleClick()
+    }
 }
