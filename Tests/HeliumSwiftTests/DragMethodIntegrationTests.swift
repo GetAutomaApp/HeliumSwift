@@ -9,8 +9,9 @@ import Testing
 
 @Suite("Drag Method Integration Tests", .serialized)
 internal class DragMethodIntegrationTests: DriverIntegrationTest {
+    /// Test `Helium.drag()` method, a method to drag an element to another target element
     @Test("Drag Element To Another")
-    func dragElementToAnother() async throws {
+    public func dragElementToAnother() async throws {
         page = "dragBox.html"
         try await driver.navigateTo(urlString: testPageURL.absoluteString)
 
@@ -21,4 +22,6 @@ internal class DragMethodIntegrationTests: DriverIntegrationTest {
         let targetText = try await driver.getProperty(element: target, propertyName: "innerText").value?.stringValue
         #expect(targetText == "DROPPED!", "Target text should be 'DROPPED!' after pointer drag")
     }
+
+    deinit {}
 }
