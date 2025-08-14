@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 
+<head>
+    <script>
+        function onClick() {
+            let element = document.getElementById("button")
+            element.innerText = "clicked!"
+        }
+
+        function doubleClick() {
+            let element = document.getElementById("doubleclick")
+            element.innerHTML += "i"
+        }
+
+    </script>
+</head>
+
 <body value="">
+    <button id="doubleclick" onclick="doubleClick()"></button>
+    <button id="button" onclick="onClick()"></button>
     <input id="findElementByInnerText" type="text" value="">
 </body>
 
