@@ -6,7 +6,10 @@
 import SwiftWebDriver
 
 /// HeliumElement, providing useful initialization methods for finding an element
-public struct HeliumElement<T: Driver> {
+public struct HeliumElement<T: Driver>: AnyElement {
+    /// The underlying element, required property conform to `AnyElement`
+    public var underlyingElement: Element
+
     /// Element found from initialization method - access this property when you want access the found `Element`
     public let element: Element
     private let driver: WebDriver<T>
@@ -26,5 +29,6 @@ public struct HeliumElement<T: Driver> {
             elementInnerText,
             matchType: matchType
         )
+        underlyingElement = element
     }
 }

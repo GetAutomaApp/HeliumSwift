@@ -19,7 +19,7 @@ internal class ClickMethodIntegrationTests: DriverIntegrationTest {
         let button = try await driver.findElement(.css(.id("button")))
         try await driver.setProperty(element: button, propertyName: "innerText", newValue: elementInnerText)
 
-        try await Helium.click(element: .init(
+        try await Helium.click(element: HeliumElement(
             driver: driver,
             elementInnerText: elementInnerText,
             matchType: .exactMatch

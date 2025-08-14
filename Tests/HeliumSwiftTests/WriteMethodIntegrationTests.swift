@@ -25,7 +25,7 @@ internal class WriteMethodIntegrationTests: DriverIntegrationTest {
 
         try await Helium.write(
             text: textToSendToElement,
-            element: .init(driver: driver, elementInnerText: elementInnerText, matchType: .exactMatch)
+            element: HeliumElement(driver: driver, elementInnerText: elementInnerText, matchType: .exactMatch)
         )
 
         let elementValue = try await getElementValue(driver.findElement(.css(.id(elementId))))
