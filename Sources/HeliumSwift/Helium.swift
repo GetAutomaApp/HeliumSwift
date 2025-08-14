@@ -72,7 +72,7 @@ public enum Helium {
     ///   - targetElement: `E2`, the target element you want to drag the source element to
     ///
     /// - Throws: An error if there is a problem dragging the source element to the target element
-    public static func drag<E1: AnyElement, E2: AnyElement, D: Driver>(
+    public static func drag<E1: AnyElement, E2: AnyElement, T, D: WebDriver<T>>(
         driver: D,
         element: E1,
         to targetElement: E2
