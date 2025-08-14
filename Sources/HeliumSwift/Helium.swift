@@ -19,24 +19,14 @@ public enum Helium {
         return try await ChromeStarter(payload: payload).startChrome()
     }
 
-    /// Send text to a `HeliumElement` - use this method if you want to use one of Helium's special element initializers
+    /// Send text to a `AnyElement`
     /// - Parameters:
     ///   - text: Text to send to element
-    ///   - element: `HeliumElement`, find an element from the driver using one of Helium's special initializers
+    ///   - element: `E`, find an element from the driver
     ///
     /// - Throws: An error if there is a problem sending keys to the element
-    public static func write<T: Driver>(text: String, element: HeliumElement<T>) async throws {
-        try await write(text: text, element: element.element)
-    }
-
-    /// Send text to a SwiftWebDriver `Element`
-    /// - Parameters:
-    ///   - text: `String`, text to send to element
-    ///   - element: `Element`, the element to send the keys to
-    ///
-    /// - Throws: An error if there is a problem sending keys to passed in element
-    public static func write(text: String, element: Element) async throws {
-        try await ElementWriter(text: text, element: element).write()
+    public static func write<E: AnyElement>(text: String, element: E) async throws {
+        try await ElementWriter(text: text, element: element.underlyingElement).write()
     }
 
     /// Send text to the active element in the current window of the passed in driver
@@ -60,33 +50,33 @@ public enum Helium {
         try await driver.navigateTo(url: url)
     }
 
-    /// Click on a `Element`
-    /// - Parameter element: `Element`, the element to click on
+    /// Click on a `AnyElement`
+    /// - Parameter element: `E`, the element to click on
     /// - Throws: An error if there is a problem clicking on the element
-    public static func click(element: Element) async throws {
-        try await ElementClicker(element: element).click()
+    public static func click<E: AnyElement>(element: E) async throws {
+        try await ElementClicker(element: element.underlyingElement).click()
     }
 
-    /// Click on a `HeliumElement` - use this method if you want to use one of Helium's special element initializers
-    /// - Parameter element: `HeliumElement`, find element from the driver using one of Helium's special initializers
-    /// - Throws: An error if there is a problem clicking on the element
-    public static func click<T: Driver>(element: HeliumElement<T>) async throws {
-        try await click(element: element.element)
-    }
-
-    /// Double click on a `Element`
+    /// Double click on a `AnyElement`
     /// initializers
-    /// - Parameter element: `Element`, the element to click on
+    /// - Parameter element: `E`, the element to click on
     /// - Throws: An error if there is a problem clicking on the element
-    public static func doubleClick(element: Element) async throws {
-        try await element.doubleClick()
+    public static func doubleClick<E: AnyElement>(element: E) async throws {
+        try await element.underlyingElement.doubleClick()
     }
 
-    /// Double click on a `HeliumElement` - use this method if you want to use one of Helium's special element
-    /// initializers
-    /// - Parameter element: `HeliumElement`, find element from the driver using one of Helium's special initializers
-    /// - Throws: An error if there is a problem clicking on the element
-    public static func doubleClick<T: Driver>(element: HeliumElement<T>) async throws {
-        try await doubleClick(element: element.element)
+    /// Drag and drop an element to another element
+    /// - Parameters:
+    ///   - driver: `D`, The driver you want to use to perform drag and drop implementation
+    ///   - element: `E1`, the source element you want to drag
+    ///   - targetElement: `E2`, the target element you want to drag the source element to
+    ///
+    /// - Throws: An error if there is a problem dragging the source element to the target element
+    public static func drag<E1: AnyElement, E2: AnyElement, T, D: WebDriver<T>>(
+        driver: D,
+        element: E1,
+        to targetElement: E2
+    ) async throws {
+        try await driver.dragAndDrop(from: element.underlyingElement, to: targetElement.underlyingElement)
     }
 }
