@@ -16,21 +16,29 @@ internal class ClickMethodIntegrationTests: DriverIntegrationTest {
 
         let elementInnerText = "textInnerText"
 
-        let element = try await driver.findElement(.css(.id("findElementByInnerText")))
-        try await driver.setProperty(element: element, propertyName: "innerText", newValue: elementInnerText)
+        let button = try await driver.findElement(.css(.id("button")))
+        try await driver.setProperty(element: button, propertyName: "innerText", newValue: elementInnerText)
 
         try await Helium.click(element: .init(
             driver: driver,
             elementInnerText: elementInnerText,
             matchType: .exactMatch
         ))
+
+        let test = try await button.text()
+        #expect(test == "clicked!")
     }
 
     @Test("Click on SwiftWebDriver Element")
     public func clickOnSwiftWebDriverElement() async throws {
         page = "0.html"
         try await driver.navigateTo(urlString: testPageURL.absoluteString)
-        try await driver.findElement(.css(.id("findElementByInnerText"))).click()
+
+        let button = try await driver.findElement(.css(.id("button")))
+        try await button.click()
+
+        let test = try await button.text()
+        #expect(test == "clicked!")
     }
 
     deinit {}
