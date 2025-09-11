@@ -6,10 +6,7 @@ import PackageDescription
 let package = Package(
     name: "HeliumSwift",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6),
+        .macOS(.v15),
     ],
     products: [
         .library(
@@ -19,14 +16,16 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/GetAutomaApp/SwiftWebDriver.git", branch: "master"),
-        .package(url: "https://github.com/apple/swift-log", from: "1.6.0")
+        .package(url: "https://github.com/apple/swift-log", from: "1.6.0"),
+        .package(url: "https://github.com/GetAutomaApp/AutomaUtilities", branch: "main"),
     ],
     targets: [
         .target(
             name: "HeliumSwift",
             dependencies: [
                 .product(name: "SwiftWebDriver", package: "SwiftWebDriver"),
-                .product(name: "Logging", package: "swift-log")
+                .product(name: "Logging", package: "swift-log"),
+                .product(name: "AutomaUtilities", package: "AutomaUtilities"),
             ]
         ),
         .testTarget(

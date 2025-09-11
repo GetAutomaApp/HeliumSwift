@@ -3,6 +3,7 @@
 // All source code and related assets are the property of GetAutomaApp.
 // All rights reserved.
 
+import AutomaUtilities
 import Testing
 
 @testable import HeliumSwift
@@ -33,7 +34,7 @@ internal class GoToMethodIntegrationTests: HeliumIntegrationTest {
         let url = "\(urlComponent.0)://\(urlComponent.1)"
 
         await #expect(
-            throws: HeliumError.invalidURL(url: url, reason: .invalidScheme(
+            throws: AutomaGenericErrors.invalidURL(url: url, reason: .invalidScheme(
                 scheme: urlComponent.0,
                 reason: "only http and https allowed"
             )),

@@ -3,6 +3,7 @@
 // All source code and related assets are the property of GetAutomaApp.
 // All rights reserved.
 
+import AutomaUtilities
 import Foundation
 import Logging
 import SwiftWebDriver
@@ -85,7 +86,8 @@ public struct ChromeStarterPayload {
     /// display
     ///   - options: Optional `ChromeOptions`, when provided will be used to configure the Chrome instance
     ///
-    /// - Throws: `HeliumError.invalidURL` if the `urlString` parameter cannot be converted to a `URL` if provided
+    /// - Throws: `AutomaGenericErrors.invalidURL` if the `urlString` parameter cannot be converted to a `URL` if
+    /// provided
     public init(
         logger: Logger? = nil,
         urlString: String? = nil,
