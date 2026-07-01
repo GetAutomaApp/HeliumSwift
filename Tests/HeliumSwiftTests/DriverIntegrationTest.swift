@@ -1,10 +1,12 @@
 // DriverIntegrationTest.swift
-// Copyright (c) 2025 GetAutomaApp
+// Copyright (c) 2026 GetAutomaApp
 // All source code and related assets are the property of GetAutomaApp.
 // All rights reserved.
 
 import Foundation
+@testable import HeliumSwift
 import SwiftWebDriver
+import Testing
 
 internal protocol DriverIntegrationTestsBase {
     var driver: WebDriver<ChromeDriver> { get set }
@@ -40,6 +42,19 @@ internal class DriverIntegrationTest: DriverIntegrationTestsBase {
         )
 
         try await driver.start()
+    }
+
+    internal func getElementValue(_ element: Element) async throws -> String {
+        guard
+            let elementValue = try await driver.getProperty(element: element, propertyName:
+                "value").value?.stringValue
+        else {
+            let errorMessage = "Element value could not be converted to a string"
+            #expect(Bool(false), .init(rawValue: errorMessage))
+            throw HeliumError.unknown(message: errorMessage)
+        }
+
+        return elementValue
     }
 
     deinit {}
