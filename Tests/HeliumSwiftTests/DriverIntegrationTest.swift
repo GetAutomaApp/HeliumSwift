@@ -29,8 +29,8 @@ internal class DriverIntegrationTest: DriverIntegrationTestsBase {
         // swiftlint:disable:next force_unwrapping
         let driverURL = URL(string: "http://localhost:4444")!
         let chromeOptions = ChromeOptions(args: [
-            Args(.disableDevShmUsage),
-            Args(.noSandbox),
+            ChromeArgs(.disableDevShmUsage),
+            ChromeArgs(.noSandbox),
         ])
 
         // Initialize the WebDriver on the main actor

@@ -1,5 +1,5 @@
 // ChromeStarter.swift
-// Copyright (c) 2025 GetAutomaApp
+// Copyright (c) 2026 GetAutomaApp
 // All source code and related assets are the property of GetAutomaApp.
 // All rights reserved.
 
@@ -113,7 +113,7 @@ public struct ChromeStarterPayload {
         private let headless: Bool?
         private let maximize: Bool?
         private let options: ChromeOptions?
-        private var chromeOptionArguments: [Args] = []
+        private var chromeOptionArguments: [ChromeArgs] = []
 
         /// Initialize a new `ChromeOptionsCreator` object
         public init(headless: Bool? = nil, maximize: Bool? = nil, options: ChromeOptions? = nil) {
@@ -126,11 +126,11 @@ public struct ChromeStarterPayload {
         public mutating func createChromeOptions()
             -> ChromeOptions
         {
-            if headless != nil && headless == true {
-                addArgument(Args(.headless))
+            if headless != nil, headless == true {
+                addArgument(ChromeArgs(.headless))
             }
-            if maximize != nil && maximize == true {
-                addArgument(Args(.startMaximized))
+            if maximize != nil, maximize == true {
+                addArgument(ChromeArgs(.startMaximized))
             }
 
             if let options, let additionalArguments = options.args {
@@ -142,11 +142,11 @@ public struct ChromeStarterPayload {
             return .init(args: chromeOptionArguments)
         }
 
-        private mutating func addArgument(_ arg: Args) {
+        private mutating func addArgument(_ arg: ChromeArgs) {
             chromeOptionArguments.append(arg)
         }
 
-        private mutating func addArguments(_ args: [Args]) {
+        private mutating func addArguments(_ args: [ChromeArgs]) {
             chromeOptionArguments.insert(contentsOf: args, at: 1)
         }
 
