@@ -20,6 +20,17 @@ public enum Helium {
         try await ChromeStarter(payload: payload).startChrome()
     }
 
+    /// Create a new Firefox browser instance with minimal lines of code, specify some common option
+    /// - Parameter payload: `FirefoxStarterPayload`, a payload to easily configure driver options
+    /// - Throws: An error if there is a problem instantiating/starting the driver, or when navigating to a URL if
+    /// provided in the options
+    /// - Returns: `WebDriver<FirefoxDriver>`
+    public static func startFirefox(payload: FirefoxStarterPayload? = nil)
+        async throws -> WebDriver<FirefoxDriver>
+    {
+        try await FirefoxStarter(payload: payload).startFirefox()
+    }
+
     /// Send text to a `AnyElement`
     /// - Parameters:
     ///   - text: `String`, text to send to element
