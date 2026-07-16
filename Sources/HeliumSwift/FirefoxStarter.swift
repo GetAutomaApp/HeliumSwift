@@ -19,7 +19,9 @@ internal struct FirefoxStarter {
     }
 
     /// Start Firefox driver instance
-    public func startFirefox() async throws -> WebDriver<FirefoxDriver> {
+    public func startFirefox() async throws
+        -> WebDriver<FirefoxDriver>
+    {
         let driver = try createDriver()
         try await startDriver(driver)
 
@@ -58,8 +60,10 @@ internal struct FirefoxStarter {
                 "to": .string("\(String(describing: Self.self)).\(#function)"),
             ]
         )
+        let url = payload?.driverURL?.absoluteString ?? ""
         return try WebDriver(
             driver: FirefoxDriver(
+                driverURLString: url,
                 browserObject: payload?.options ?? .init(args: [])
             )
         )
@@ -73,6 +77,8 @@ public struct FirefoxStarterPayload {
 
     /// Optional URL to navigate the driver to
     public let url: URL?
+
+    public let driverURL: URL?
 
     /// FirefoxOptions to initialize the browser instance with
     public let options: FirefoxOptions
@@ -90,8 +96,9 @@ public struct FirefoxStarterPayload {
     public init(
         logger: Logger? = nil,
         urlString: String? = nil,
+        driverURLString: String? = nil,
         headless: Bool? = nil,
-        options: FirefoxOptions? = nil
+        options: FirefoxOptions? = nil,
     ) throws {
         self.logger = logger
 
@@ -99,6 +106,12 @@ public struct FirefoxStarterPayload {
             url = try URL.fromString(payload: .init(string: urlString))
         } else {
             url = nil
+        }
+
+        if let driverURLString {
+            driverURL = try URL.fromString(payload: .init(string: driverURLString))
+        } else {
+            driverURL = nil
         }
 
         var optionsCreator = FirefoxOptionsCreator(
