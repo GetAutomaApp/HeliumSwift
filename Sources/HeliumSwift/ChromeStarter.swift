@@ -60,6 +60,7 @@ internal struct ChromeStarter {
         )
         return try WebDriver(
             driver: ChromeDriver(
+                driverURLString: "http://localhost:4444",
                 browserObject: payload?.options ?? .init(args: [])
             )
         )
